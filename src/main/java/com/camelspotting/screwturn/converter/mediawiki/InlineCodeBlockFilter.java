@@ -35,7 +35,8 @@ public class InlineCodeBlockFilter implements TextFilter {
 
                 if (start == -1) {
                     // No more inline code blocks on line
-                    sb.append(line.substring(idx));
+                    String lineEnd = line.substring(idx);
+                    sb.append(lineEnd);
                     break;
                 }
 
@@ -58,12 +59,12 @@ public class InlineCodeBlockFilter implements TextFilter {
                 }
             }
 
-            String newLine = sb.toString();
+            String finalLine = sb.toString();
             if (lineChanged) {
                 changed = true;
-                System.out.println("Changed line to: " + newLine);
+                System.out.println("Changed line to: " + finalLine);
             }
-            output.add(newLine);
+            output.add(finalLine);
         }
 
         String txt = output.stream().collect(Collectors.joining("\n"));

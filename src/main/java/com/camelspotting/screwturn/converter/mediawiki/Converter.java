@@ -7,6 +7,7 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.*;
 
@@ -22,7 +23,7 @@ public class Converter {
         Path outputFolder = folder.resolveSibling("output");
         Files.createDirectories(outputFolder);
 
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(folder, "*.xml")) {
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(folder, "The-Wall.xml")) {
             stream.forEach(f -> convertFile(outputFolder, f));
         }
     }
@@ -33,7 +34,7 @@ public class Converter {
         Path outputFile = outputFolder.resolve(name);
 
         try (OutputStream os = Files.newOutputStream(outputFile, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
-             PrintWriter pw = new PrintWriter(os)){
+             OutputStreamWriter pw = new OutputStreamWriter(os, StandardCharsets.UTF_8)){
 
             Files.createDirectories(outputFolder);
 
@@ -57,7 +58,7 @@ public class Converter {
         Element text = element.getChild("text");
 
         new InlineCodeBlockFilter().filter(text);
-        //new CodeBlockFilter().filter(text);
+        new CodeBlockFilter().filter(text);
 
     }
 }
