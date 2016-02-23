@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class InlineCodeBlockFilter implements TextFilter {
 
@@ -67,8 +66,7 @@ public class InlineCodeBlockFilter implements TextFilter {
             output.add(finalLine);
         }
 
-        String txt = output.stream().collect(Collectors.joining("\n"));
-        element.setText(txt);
+        element.setText(FilterUtil.marshal(output));
         return changed;
     }
 }
