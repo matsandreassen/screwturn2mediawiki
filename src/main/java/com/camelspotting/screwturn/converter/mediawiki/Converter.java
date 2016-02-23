@@ -23,7 +23,7 @@ public class Converter {
         Path outputFolder = folder.resolveSibling("output");
         Files.createDirectories(outputFolder);
 
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(folder, "The-Wall.xml")) {
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(folder, "*.xml")) {
             stream.forEach(f -> convertFile(outputFolder, f));
         }
     }
@@ -33,11 +33,7 @@ public class Converter {
         System.out.println("Processing " + name);
         Path outputFile = outputFolder.resolve(name);
 
-        try (OutputStream os = Files.newOutputStream(outputFile, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
-             OutputStreamWriter pw = new OutputStreamWriter(os, StandardCharsets.UTF_8)){
-
-            Files.createDirectories(outputFolder);
-
+        try (BufferedWriter pw = Files.newBufferedWriter(outputFile, StandardCharsets.UTF_8)) {
 
             Document doc = new SAXBuilder().build(f.toFile());
             List<Element> pages = doc.getRootElement().getChildren("page");
