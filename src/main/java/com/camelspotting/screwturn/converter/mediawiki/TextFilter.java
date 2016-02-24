@@ -1,8 +1,6 @@
 package com.camelspotting.screwturn.converter.mediawiki;
 
-import org.jdom2.Element;
+import java.util.function.Function;
 
-public interface TextFilter {
-
-    boolean filter(Element element);
+public interface TextFilter extends Function<String, String> {
 }

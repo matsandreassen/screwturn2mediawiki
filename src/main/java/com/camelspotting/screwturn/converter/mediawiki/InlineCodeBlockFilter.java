@@ -1,7 +1,5 @@
 package com.camelspotting.screwturn.converter.mediawiki;
 
-import org.jdom2.Element;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -10,10 +8,8 @@ import java.util.List;
 public class InlineCodeBlockFilter implements TextFilter {
 
     @Override
-    public boolean filter(Element element) {
-        boolean changed = false;
-
-        String[] lines = element.getText().split("\\n");
+    public String apply(String element) {
+        String[] lines = element.split("\\n");
         Iterator<String> itr = Arrays.asList(lines).iterator();
         List<String> output = new ArrayList<>();
         outer:
@@ -58,19 +54,16 @@ public class InlineCodeBlockFilter implements TextFilter {
                     idx = end + 2;
 
                     lineChanged = true;
-                    changed = true;
                 }
             }
 
             String finalLine = sb.toString();
             if (lineChanged) {
-                changed = true;
                 System.out.println("Changed line to: " + finalLine);
             }
             output.add(finalLine);
         }
 
-        element.setText(FilterUtil.marshal(output));
-        return changed;
+        return FilterUtil.marshal(output);
     }
 }

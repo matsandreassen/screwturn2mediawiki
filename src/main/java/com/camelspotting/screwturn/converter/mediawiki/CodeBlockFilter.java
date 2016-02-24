@@ -1,7 +1,5 @@
 package com.camelspotting.screwturn.converter.mediawiki;
 
-import org.jdom2.Element;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -10,8 +8,8 @@ import java.util.List;
 public class CodeBlockFilter implements TextFilter {
 
     @Override
-    public boolean filter(Element element) {
-        String[] lines = element.getText().split("\\n");
+    public String apply(String element) {
+        String[] lines = element.split("\\n");
 
         Iterator<String> itr = Arrays.asList(lines).iterator();
         List<String> output = new ArrayList<>();
@@ -71,9 +69,7 @@ public class CodeBlockFilter implements TextFilter {
             }
         }
 
-        element.setText(FilterUtil.marshal(output));
-
-        return true;
+        return FilterUtil.marshal(output);
     }
 
     private enum BlockType {

@@ -52,9 +52,13 @@ public class Converter {
 
     private static void convertRevision(Element element) {
         Element text = element.getChild("text");
+        String input = text.getTextTrim();
 
-        new InlineCodeBlockFilter().filter(text);
-        new CodeBlockFilter().filter(text);
+        // Apply filters
+        String output = new InlineCodeBlockFilter().apply(input);
+        output = new CodeBlockFilter().apply(output);
+
+        text.setText(output);
 
     }
 }
