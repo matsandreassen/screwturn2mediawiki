@@ -54,6 +54,10 @@ public class CodeBlockFilter implements TextFilter {
                     break;
                 case HIGHLIGHTED:
                 case REGULAR:
+                    if (idx > 0) {
+                        output.add(line.substring(0, idx));
+                    }
+
                     String end = line.substring(idx + 2);
                     String marker = currentBlock == BlockType.REGULAR
                             ? "</code>"
