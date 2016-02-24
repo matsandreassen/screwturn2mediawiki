@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-public class InlineCodeBlockFilter implements TextFilter {
+public class InlinePreFilter implements TextFilter {
 
     @Override
     public String apply(String element) {
@@ -49,7 +49,7 @@ public class InlineCodeBlockFilter implements TextFilter {
                     sb.append(line.substring(0, start));
 
                     String expression = line.substring(start + 2, end);
-                    sb.append("<code>").append(expression).append("</code>");
+                    sb.append("<pre>").append(expression).append("</pre>");
 
                     idx = end + 2;
 

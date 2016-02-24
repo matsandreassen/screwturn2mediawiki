@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-public class CodeBlockFilter implements TextFilter {
+public class MultiLinePreFilter implements TextFilter {
 
     @Override
     public String apply(String element) {
@@ -34,7 +34,7 @@ public class CodeBlockFilter implements TextFilter {
 
                     if (endOfLine.length() > 0) {
                         if (endOfLine.contains(" ")) {
-                            output.add("<code>");
+                            output.add("<pre>");
                             output.add(endOfLine);
                             currentBlock = BlockType.REGULAR;
                         } else {
@@ -45,7 +45,7 @@ public class CodeBlockFilter implements TextFilter {
                             currentBlock = BlockType.HIGHLIGHTED;
                         }
                     } else {
-                        String marker = "<code>";
+                        String marker = "<pre>";
                         System.out.println("Changed line to: " + marker);
                         output.add(marker);
 
@@ -60,7 +60,7 @@ public class CodeBlockFilter implements TextFilter {
 
                     String end = line.substring(idx + 2);
                     String marker = currentBlock == BlockType.REGULAR
-                            ? "</code>"
+                            ? "</pre>"
                             : "</syntaxhighlight>";
 
                     if (end.length() == 0) {

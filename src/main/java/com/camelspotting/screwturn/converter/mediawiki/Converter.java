@@ -55,8 +55,8 @@ public class Converter {
         String input = text.getTextTrim();
 
         // Apply filters
-        String output = new InlineCodeBlockFilter().apply(input);
-        output = new CodeBlockFilter().apply(output);
+        String output = new InlinePreFilter().apply(input);
+        output = new MultiLinePreFilter().apply(output);
 
         text.setText(output);
 
