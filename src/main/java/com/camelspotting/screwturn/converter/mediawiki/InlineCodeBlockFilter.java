@@ -30,18 +30,22 @@ public class InlineCodeBlockFilter implements TextFilter {
             StringBuilder sb = new StringBuilder();
             while (true) {
                 int start = line.indexOf("@@", idx);
-                int end = line.indexOf("@@", start + 1);
+                int end = start != -1 ? line.indexOf("@@", start + 1) : -1;
 
-                if (start == -1) {
+                if (start == -1 && end == -1) {
                     // No more inline code blocks on line
                     String lineEnd = line.substring(idx);
                     sb.append(lineEnd);
                     break;
                 }
 
-                if (end == -1) {
+                if (start != -1 && end == -1) {
                     // Block does not end on line
-                    sb.append(line.substring(start));
+                    if (sb.length() > 0) {
+                        sb.append(line.substring(start));
+                    } else {
+                        sb.append(line);
+                    }
                     break;
                 }
 
