@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class InlinePreFilter implements TextFilter {
+public class CodeBlockFilter implements TextFilter {
 
     @Override
-    public String apply(String element) {
-        Iterator<String> itr = FilterUtil.unmarshal(element).iterator();
+    public String apply(String s) {
+        Iterator<String> itr = FilterUtil.unmarshal(s).iterator();
         List<String> output = new ArrayList<>();
         outer:
         while (itr.hasNext()) {
             boolean lineChanged = false;
             String line = itr.next();
 
-            if (!line.contains("@@")) {
+            if (!line.contains("{{")) {
                 output.add(line);
                 continue;
             }
@@ -23,8 +23,8 @@ public class InlinePreFilter implements TextFilter {
             int idx = 0;
             StringBuilder sb = new StringBuilder();
             while (true) {
-                int start = line.indexOf("@@", idx);
-                int end = start != -1 ? line.indexOf("@@", start + 1) : -1;
+                int start = line.indexOf("{{", idx);
+                int end = line.indexOf("}}", idx);
 
                 if (start == -1 && end == -1) {
                     // No more inline code blocks on line
@@ -47,7 +47,7 @@ public class InlinePreFilter implements TextFilter {
                     sb.append(line.substring(idx, start));
 
                     String expression = line.substring(start + 2, end);
-                    sb.append("<pre>").append(expression).append("</pre>");
+                    sb.append("<code>").append(expression).append("</code>");
 
                     idx = end + 2;
 
@@ -60,6 +60,17 @@ public class InlinePreFilter implements TextFilter {
                 System.out.println("Changed line to: " + finalLine);
             }
             output.add(finalLine);
+
+
+            /*if (start != -1 && end != -1) {
+                String lineStart = line.substring(0, start);
+                String expression = line.substring(start + 2, end);
+                String lineEnd = line.substring(end + 2);
+
+                output.add(lineStart+"<code>"+expression+"</code>"+lineEnd);
+            } else {
+                output.add(line);
+            }*/
         }
 
         return FilterUtil.marshal(output);

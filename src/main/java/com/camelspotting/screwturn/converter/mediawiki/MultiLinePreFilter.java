@@ -1,7 +1,6 @@
 package com.camelspotting.screwturn.converter.mediawiki;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -9,9 +8,7 @@ public class MultiLinePreFilter implements TextFilter {
 
     @Override
     public String apply(String element) {
-        String[] lines = element.split("\\n");
-
-        Iterator<String> itr = Arrays.asList(lines).iterator();
+        Iterator<String> itr = FilterUtil.unmarshal(element).iterator();
         List<String> output = new ArrayList<>();
         BlockType currentBlock = BlockType.NONE;
         while (itr.hasNext()) {
