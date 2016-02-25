@@ -10,4 +10,5 @@ targetCompatibility = '1.8'
 
 dependencies {
     compile 'org.jdom:jdom:2.0.2'
+    testCompile 'junit:junit:4.12'
 }

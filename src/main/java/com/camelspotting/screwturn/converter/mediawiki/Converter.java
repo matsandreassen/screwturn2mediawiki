@@ -58,6 +58,7 @@ public class Converter {
         String output = new InlinePreFilter().apply(input);
         output = new MultiLinePreFilter().apply(output);
         output = new CodeBlockFilter().apply(output);
+        output = new LinkFilter().apply(output);
 
         text.setText(output);
 
