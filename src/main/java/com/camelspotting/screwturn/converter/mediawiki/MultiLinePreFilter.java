@@ -12,7 +12,7 @@ public class MultiLinePreFilter implements TextFilter {
         List<String> output = new ArrayList<>();
         BlockType currentBlock = BlockType.NONE;
         while (itr.hasNext()) {
-            String line = itr.next().trim();
+            String line = itr.next();
 
             if (!line.contains("@@")) {
                 output.add(line);
